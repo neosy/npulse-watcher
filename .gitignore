@@ -1,0 +1,6 @@
+# Exclude
+/secrets/*
+/.vscode/*
+
+# Exception to the rule
+!/secrets/.gitkeep
