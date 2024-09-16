@@ -24,8 +24,16 @@ type ServerConfig struct {
 
 type WatcherConfig struct {
 	Freq          int    `env:"WATCHER_FREQ" envDefault:"5"` // Частота проверок (в минутах)
-	LogFolderPath string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"~/log"`
+	LogFolderPath string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"~/log/nPulseWatcher"`
 	LogFileName   string `env:"WATCHER_LOG_FILENAME" envDefault:"nPulse_watcher.log"`
+	Telegram      TelegramConfig
+}
+
+type TelegramConfig struct {
+	Token      string `env:"WATCHER_TELEGRAM_TOKEN" envDefault:""`
+	TokenFile  string `env:"WATCHER_TELEGRAM_TOKEN_FILE" envDefault:"/run/secrets/telegram_token"`
+	ChatId     string `env:"WATCHER_TELEGRAM_CHATID" envDefault:""`
+	ChatIdFile string `env:"WATCHER_TELEGRAM_CHATID_FILE" envDefault:"/run/secrets/telegram_chatid"`
 }
 
 // Создание объекта Config
@@ -33,6 +41,15 @@ func New() *Config {
 	c := &Config{}
 
 	c.load()
+
+	tg := &c.Watcher.Telegram
+
+	if tg.Token == "" {
+		tg.Token = SecretFileRead(tg.TokenFile)
+	}
+	if tg.ChatId == "" {
+		tg.ChatId = SecretFileRead(tg.ChatIdFile)
+	}
 
 	return c
 }

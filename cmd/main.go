@@ -29,6 +29,9 @@ func main() {
 	// Инициализация UseCase
 	uc := usecase.New(&cfg.Watcher)
 
+	// Запуск фоновой операции через интервал времени
+	go uc.Daemon()
+
 	// Инициализация fastHTTTP сервера
 	server, err := server.New(uc)
 	server.Compress = cfg.Server.Compress
