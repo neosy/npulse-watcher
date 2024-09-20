@@ -10,6 +10,8 @@ import (
 // Основной обработчик сервера FastHTTP
 func (s *HTTPServer) HandlerMain(ctx *fasthttp.RequestCtx) {
 	switch string(ctx.Path()) {
+	case "/watcher/ping":
+		s.handlerWatcherPing(ctx)
 	case "/watcher/reg":
 		s.handlerWatcherRegistration(ctx)
 	default:

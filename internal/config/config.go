@@ -23,17 +23,17 @@ type ServerConfig struct {
 }
 
 type WatcherConfig struct {
-	Freq          int    `env:"WATCHER_FREQ" envDefault:"5"` // Частота проверок (в минутах)
-	LogFolderPath string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"~/log/nPulseWatcher"`
-	LogFileName   string `env:"WATCHER_LOG_FILENAME" envDefault:"nPulse_watcher.log"`
-	Telegram      TelegramConfig
+	FreqSec             int    `env:"WATCHER_FREQ" envDefault:"60"`               // Частота проверки и рассылки уведомлений (в секундах)
+	ResponseDeadlineSec int    `env:"WATCHER_RESPONSE_DEADLINE" envDefault:"180"` // Допустимое время получения ответа от серверов (в секундах)
+	LogFolderPath       string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"/app_n/log"`
+	LogFileName         string `env:"WATCHER_LOG_FILENAME" envDefault:"nPulse_watcher.log"`
+	Telegram            TelegramConfig
 }
 
 type TelegramConfig struct {
-	Token      string `env:"WATCHER_TELEGRAM_TOKEN" envDefault:""`
-	TokenFile  string `env:"WATCHER_TELEGRAM_TOKEN_FILE" envDefault:"/run/secrets/telegram_token"`
-	ChatId     string `env:"WATCHER_TELEGRAM_CHATID" envDefault:""`
-	ChatIdFile string `env:"WATCHER_TELEGRAM_CHATID_FILE" envDefault:"/run/secrets/telegram_chatid"`
+	Token     string `env:"WATCHER_TELEGRAM_TOKEN" envDefault:""`
+	TokenFile string `env:"WATCHER_TELEGRAM_TOKEN_FILE" envDefault:"/run/secrets/npulse_telegram_token"`
+	ChatId    string `env:"WATCHER_TELEGRAM_CHATID" envDefault:""`
 }
 
 // Создание объекта Config
@@ -46,9 +46,6 @@ func New() *Config {
 
 	if tg.Token == "" {
 		tg.Token = SecretFileRead(tg.TokenFile)
-	}
-	if tg.ChatId == "" {
-		tg.ChatId = SecretFileRead(tg.ChatIdFile)
 	}
 
 	return c

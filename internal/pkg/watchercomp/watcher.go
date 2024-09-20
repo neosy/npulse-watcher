@@ -75,7 +75,7 @@ func (wc *WatcherComp) Add(ip string, name string, time time.Time, status CompWa
 
 	if !exists {
 		comp = compState{}
-		comp.needInfo = status == WatchStatusFail
+		comp.needInfo = true
 	} else {
 		if comp.status == status {
 			comp.lastTime = time
@@ -98,14 +98,14 @@ func (wc *WatcherComp) Add(ip string, name string, time time.Time, status CompWa
 	return comp, err
 }
 
-func (wc *WatcherComp) Check(durationFailSeconds int) {
+func (wc *WatcherComp) Check(responseDeadlineSec int) {
 	const ch_br = "\n"
 	var msg string
 
 	for key, value := range wc.compIPs {
 		if value.status == WatchStatusOK {
 			timeNow := time.Now()
-			if timeNow.Sub(value.lastTime).Seconds() > float64(durationFailSeconds) {
+			if timeNow.Sub(value.lastTime).Seconds() > float64(responseDeadlineSec) {
 				value, _ = wc.Add(value.ip, value.name, time.Now(), WatchStatusFail)
 			}
 		}

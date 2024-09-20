@@ -35,8 +35,8 @@ func (uc *UseCase) Registration(ctx context.Context, data *models.WatcherRegRequ
 
 func (uc *UseCase) Daemon() {
 	for {
-		time.Sleep(5 * time.Second)
-		//time.Sleep(time.Duration(uc.config.Freq) * time.Minute)
-		uc.watcherComp.Check(10)
+		//time.Sleep(5 * time.Second)
+		time.Sleep(time.Duration(uc.config.FreqSec) * time.Second)
+		uc.watcherComp.Check(uc.config.ResponseDeadlineSec)
 	}
 }
