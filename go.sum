@@ -14,8 +14,8 @@ github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=
 github.com/leodido/go-urn v1.4.0/go.mod h1:bvxc+MVxLKB4z00jd1z+Dvzr47oO32F/QSNjSBOlFxI=
-github.com/neosy/gofw v0.0.0-20240913142014-201c8f914cf8 h1:O9Wxpj2mwmQMzqpig/iqvCmiwi9CuWAzcJFUghJFukY=
-github.com/neosy/gofw v0.0.0-20240913142014-201c8f914cf8/go.mod h1:ZRESNNkTKRfy0ak5Ca2raMjgjEG2AQXUUWFajj0mHzQ=
+github.com/neosy/gofw v0.0.0-20240920141626-7fa2d53d6b4c h1:IJ8CfiKH5uPwjgKNohUBXXaflxjz3VvCmqEOIV84JJs=
+github.com/neosy/gofw v0.0.0-20240920141626-7fa2d53d6b4c/go.mod h1:ZRESNNkTKRfy0ak5Ca2raMjgjEG2AQXUUWFajj0mHzQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=

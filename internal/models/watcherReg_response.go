@@ -1,6 +1,5 @@
 package models
 
-type WatcherRegSuccessResponse struct {
-	Success bool   `json:"success"`
+type WatcherRegResponse struct {
 	Message string `json:"message,omitempty"`
 }

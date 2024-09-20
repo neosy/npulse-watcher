@@ -17,22 +17,21 @@ func (server *HTTPServer) handlerWatcherPing(ctx *fasthttp.RequestCtx) {
 
 		var watcherPingData WatcherPingRequest
 		if err := json.Unmarshal(body, &watcherPingData); err != nil {
-			nfasthttp.ResponseFailStandard(ctx, fasthttp.StatusBadRequest, "Error when parsing JSON")
+			nfasthttp.ResponseFailDefault(ctx, fasthttp.StatusBadRequest, "Error when parsing JSON")
 			return
 		}
 		if err := watcherPingData.validate(); err != nil {
-			nfasthttp.ResponseFailStandard(ctx, fasthttp.StatusBadRequest, "Error when validate JSON")
+			nfasthttp.ResponseFailDefault(ctx, fasthttp.StatusBadRequest, "Error when validate JSON")
 			return
 		}
 
 		// Ответ
 		if watcherPingData.Text != "Ping" {
-			nfasthttp.ResponseFailStandard(ctx, fasthttp.StatusNotAcceptable, fmt.Sprintf("Ping error. %v", nil))
+			nfasthttp.ResponseFailDefault(ctx, fasthttp.StatusNotAcceptable, fmt.Sprintf("Ping error. %v", nil))
 
 		} else {
 			response := models.WatcherPingResponse{
-				Success: true,
-				Text:    "Pong",
+				Text: "Pong",
 			}
 
 			responseJSON, _ := nbasic.StructToJSON(response)
@@ -40,6 +39,6 @@ func (server *HTTPServer) handlerWatcherPing(ctx *fasthttp.RequestCtx) {
 			nfasthttp.ResponseSuccessOK(ctx, responseJSON)
 		}
 	} else {
-		nfasthttp.ResponseFailStandard(ctx, fasthttp.StatusMethodNotAllowed, "Method not allowed")
+		nfasthttp.ResponseFailDefault(ctx, fasthttp.StatusMethodNotAllowed, "Method not allowed")
 	}
 }
