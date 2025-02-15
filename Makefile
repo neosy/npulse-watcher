@@ -6,20 +6,11 @@
 include .make.env
 export
 
-VERSION_APP_FILE := "VERSION"
-VERSION_IMG_FILE := "VERSION_IMG"
+VERSION_FILE := "VERSION"
+VERSION_START := "0.1.0"
 
-VERSION_APP_START := "0.1.0"
-VERSION_IMG_START := "0.1.0"
-
-VERSION_IMG := $(shell cat $(VERSION_IMG_FILE))
-VERSION_IMG_NEW := $(shell echo $(VERSION_IMG) | awk -F. '{print $$1"."$$2"."$$3+1}')
-
-VERSION_APP := $(shell cat $(VERSION_APP_FILE))
-VERSION_APP_NEW := $(shell echo $(VERSION_APP) | awk -F. '{print $$1"."$$2"."$$3+1}')
-
-APP_IMG_VERSION := $(APP_IMG):$(VERSION_IMG)
-APP_IMG_VERSION_NEW := $(APP_IMG):$(VERSION_IMG_NEW)
+VERSION := $(shell cat $(VERSION_FILE))
+VERSION_NEW := $(shell echo $(VERSION) | awk -F. '{print $$1"."$$2"."$$3+1}')
 
 .DEFAULT_GOAL := help
 
@@ -62,9 +53,9 @@ img-push: ## Отправка images в локальный репозитари�
 	docker rmi $(APP_IMG_LATEST)
 	
 img-push-version: ## Отправка images в локальный репозитарий с тегом актуальной версии
-	docker tag $(APP_IMG_NAME) $(APP_IMG_VERSION)
-	docker push $(APP_IMG_VERSION)
-	docker rmi $(APP_IMG_VERSION)
+	docker tag $(APP_IMG_NAME) $(APP_IMG):$(VERSION)
+	docker push $(APP_IMG):$(VERSION)
+	docker rmi $(APP_IMG):$(VERSION)
 
 img-pull: ## Загрузка images из локального репозитария
 	@docker pull $(APP_IMG_LATEST)
@@ -73,20 +64,14 @@ docker-run: ## Запуск докера
 	docker run -d --name $(APP_NAME) $(APP_IMG_NAME_LATEST)
 
 git-push-tag-version: ## Создание тега в git для актуальной версии
-	-git tag v$(VERSION_APP)
+	-git tag v$(VERSION)
 	git push --tags
 
-version-img-create: ## Создание файла с номер версии images
-	echo -n $(VERSION_IMG_START) > $(VERSION_IMG_FILE)
+version-create: ## Создание файла с номер версии программы
+	echo -n $(VERSION_START) > $(VERSION_FILE)
 	
-version-app-create: ## Создание файла с номер версии программы
-	echo -n $(VERSION_APP_START) > $(VERSION_APP_FILE)
-	
-version-img-inc: ## Увеличение номера версии images и сохранение в файл
-	echo -n $(VERSION_IMG_NEW) > $(VERSION_IMG_FILE)
-
-version-app-inc: ## Увеличение номера версии программы и сохранение в файл
-	echo -n $(VERSION_APP_NEW) > $(VERSION_APP_FILE)
+version-inc: ## Увеличение номера версии программы и сохранение в файл
+	echo -n $(VERSION_NEW) > $(VERSION_FILE)
 
 version-img-list: ## Список версий images
 	curl -s $(DOCKER_HTTP_ADRR_TAG_LIST) | jq .
