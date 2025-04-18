@@ -1,6 +1,6 @@
 module git.n-hub.ru/neosy/npulse-watcher
 
-go 1.22.5
+go 1.24.0
 
 require (
 	github.com/caarlos0/env/v11 v11.2.2
