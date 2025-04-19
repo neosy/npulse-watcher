@@ -43,7 +43,7 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 		return errors.New("function parameter is a null pointer")
 	}
 
-	ipStateKey := fmt.Sprintf("%s:%s", r.getBaseKey(), pulseState.IPAddress)
+	ipStateKey := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", pulseState.IPAddress)
 
 	ePulseState := r.mappers.MapPulseStateDomainToEntity(pulseState)
 
@@ -62,7 +62,7 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 
 // FindByIP retrieves the PulseState by the given IP address.
 func (r *PulseStateRepository) FindByIP(ctx context.Context, ip string) (*dpulse.PulseState, error) {
-	ipStateKey := fmt.Sprintf("%s:%s", r.getBaseKey(), ip)
+	ipStateKey := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", ip)
 
 	pulseStateBytes, err := r.client.Get(ctx, ipStateKey).Bytes()
 	if err != nil {

@@ -66,6 +66,8 @@ func main() {
 		},
 	}
 	uc := usecases.New(logger, ucDeps)
+	// Initialize
+	uc.Watcher.FirstRun(ctx)
 
 	// Захват сигналов завершения (Ctrl+C, SIGTERM)
 	sigChan := make(chan os.Signal, 1)
