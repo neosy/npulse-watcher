@@ -11,6 +11,8 @@ const (
 
 	// Ping
 	pathPing = "/ping"
+	// Register
+	pathRegister = "/reg"
 )
 
 // newRouter returns a new router.
@@ -25,6 +27,7 @@ func (s *httpServer) newRouter() *router.Router {
 	group := r.Group(groupWatcher)
 	{
 		group.GET(pathPing, handlers.Watcher.PingHandler)
+		group.GET(pathRegister, handlers.Watcher.RegisterHandler)
 	}
 
 	return r

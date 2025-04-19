@@ -1,4 +1,4 @@
-package watcherhandlers
+package watcherh
 
 import (
 	"encoding/json"

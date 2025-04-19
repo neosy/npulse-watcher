@@ -1,4 +1,4 @@
-package watcherhandlers
+package watcherh
 
 import (
 	"git.n-hub.ru/neosy/npulse-watcher/adapter/inbound/rest/handlers/watcher/mappers"

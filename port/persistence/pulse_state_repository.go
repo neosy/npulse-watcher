@@ -11,4 +11,7 @@ type PulseStateRepository interface {
 	// Add saves a PulseState record.
 	// Returns an error if the operation fails.
 	Add(ctx context.Context, pulseState *dpulse.PulseState) error
+
+	// FindByIP retrieves the PulseState by the given IP address.
+	FindByIP(ctx context.Context, ip string) (*dpulse.PulseState, error)
 }

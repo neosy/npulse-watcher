@@ -3,12 +3,13 @@ package usecases
 import (
 	"log/slog"
 
+	"git.n-hub.ru/neosy/npulse-watcher/application/usecases/watcher"
 	"git.n-hub.ru/neosy/npulse-watcher/port/persistence"
 )
 
 // Usecases represents the business layer of the application.
 type Usecases struct {
-	//Link *link.LinkUsecase
+	Watcher *watcher.Watcher
 }
 
 type DepRepositories struct {
@@ -27,6 +28,6 @@ func New(
 ) *Usecases {
 
 	return &Usecases{
-		//Link: linkUsecase,
+		Watcher: watcher.NewWatcher(logger, deps.Repositories.PulseState),
 	}
 }
