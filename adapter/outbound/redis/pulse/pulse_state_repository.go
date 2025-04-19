@@ -45,7 +45,9 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 
 	ipStateKey := fmt.Sprintf("%s:%s", r.getBaseKey(), pulseState.IPAddress)
 
-	pulseStateBytes, err := json.Marshal(pulseState)
+	ePulseState := r.mappers.MapPulseStateDomainToEntity(pulseState)
+
+	pulseStateBytes, err := json.Marshal(ePulseState)
 	if err != nil {
 		return fmt.Errorf("failed to marshal PulseState: %v", err)
 	}

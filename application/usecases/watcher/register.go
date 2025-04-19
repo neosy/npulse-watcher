@@ -19,14 +19,7 @@ func (u *Watcher) Register(ctx context.Context, req *appdto.RegisterRequest) (*d
 		return nil, err
 	}
 
-	pulseState := u.mapper.MapRegisterRequestToPulseStateDomain(req)
-
-	if pulseStateOld != nil {
-		isChanged := pulseState.Status != pulseStateOld.Status
-		if isChanged {
-			pulseState.IsNotified = false
-		}
-	}
+	pulseState := u.mapper.MapRegisterRequestToPulseStateDomain(req, pulseStateOld)
 
 	err = u.pulseStateRep.Add(ctx, pulseState)
 	if err != nil {
