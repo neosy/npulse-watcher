@@ -14,6 +14,7 @@ import (
 	httpsrv "git.n-hub.ru/neosy/npulse-watcher/adapter/inbound/rest"
 	rrepositories "git.n-hub.ru/neosy/npulse-watcher/adapter/outbound/redis"
 	"git.n-hub.ru/neosy/npulse-watcher/application/usecases"
+	"git.n-hub.ru/neosy/npulse-watcher/application/usecases/watcher"
 	iconfig "git.n-hub.ru/neosy/npulse-watcher/infrastructure/config"
 )
 
@@ -60,14 +61,20 @@ func main() {
 	rRepositories := rrepositories.New(redisClient, cfg.Redis.PrefixKey)
 
 	// Usecases
+	watcherConfig := &watcher.Config{
+		NotifyInterval:    time.Duration(cfg.Watcher.NotifyInterval) * time.Second,
+		ResponseTimeout:   time.Duration(cfg.Watcher.ResponseTimeout) * time.Second,
+		TelegramToken:     cfg.Watcher.Telegram.Token,
+		TelegramChannelId: cfg.Watcher.Telegram.ChannelId,
+	}
 	ucDeps := &usecases.Dependencies{
 		Repositories: usecases.DepRepositories{
 			PulseState: rRepositories.PulseState,
 		},
 	}
-	uc := usecases.New(logger, ucDeps)
+	uc := usecases.New(logger, watcherConfig, ucDeps)
 	// Initialize
-	uc.Watcher.FirstRun(ctx)
+	uc.Init(ctx)
 
 	// Захват сигналов завершения (Ctrl+C, SIGTERM)
 	sigChan := make(chan os.Signal, 1)

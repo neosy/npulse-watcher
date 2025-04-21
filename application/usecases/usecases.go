@@ -24,10 +24,14 @@ type Dependencies struct {
 // New returns a new instance of Usecases.
 func New(
 	logger *slog.Logger,
+	watcherConfig *watcher.Config,
 	deps *Dependencies,
 ) *Usecases {
 
 	return &Usecases{
-		Watcher: watcher.NewWatcher(logger, deps.Repositories.PulseState),
+		Watcher: watcher.NewWatcher(
+			logger,
+			watcherConfig,
+			deps.Repositories.PulseState),
 	}
 }

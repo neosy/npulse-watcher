@@ -6,7 +6,6 @@ import (
 
 	appdto "git.n-hub.ru/neosy/npulse-watcher/application/dto"
 	dpulse "git.n-hub.ru/neosy/npulse-watcher/domain"
-	dtypes "git.n-hub.ru/neosy/npulse-watcher/domain/types"
 )
 
 func (u *Watcher) Register(ctx context.Context, req *appdto.RegisterRequest) (*dpulse.PulseState, error) {
@@ -27,11 +26,13 @@ func (u *Watcher) Register(ctx context.Context, req *appdto.RegisterRequest) (*d
 		return nil, err
 	}
 
-	if pulseState.Status == dtypes.PulseStateStatusSuccess {
-		err = u.pulseStateRep.AddSuccess(ctx, pulseState.IPAddress)
-		if err != nil {
-			return nil, err
-		}
+	err = u.pulseStateRep.AddActiveIP(ctx, pulseState.IPAddress)
+	if err != nil {
+		return nil, err
+	}
+
+	if !pulseState.IsNotified {
+		u.pulseStateRep.AddNotifyIP(ctx, pulseState.IPAddress)
 	}
 
 	return pulseState, nil

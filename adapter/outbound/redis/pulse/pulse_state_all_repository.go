@@ -43,7 +43,7 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 		return errors.New("function parameter is a null pointer")
 	}
 
-	ipStateKey := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", pulseState.IPAddress)
+	key := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", pulseState.IPAddress)
 
 	ePulseState := r.mappers.MapPulseStateDomainToEntity(pulseState)
 
@@ -52,7 +52,7 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 		return fmt.Errorf("failed to marshal PulseState: %v", err)
 	}
 
-	err = r.client.Set(ctx, ipStateKey, pulseStateBytes, 0).Err()
+	err = r.client.Set(ctx, key, pulseStateBytes, 0).Err()
 	if err != nil {
 		return fmt.Errorf("failed to set value in Redis: %v", err)
 	}
@@ -60,11 +60,33 @@ func (r *PulseStateRepository) Add(ctx context.Context, pulseState *dpulse.Pulse
 	return nil
 }
 
+// Update saves a PulseState record.
+func (r *PulseStateRepository) Update(ctx context.Context, pulseState *dpulse.PulseState) error {
+	return r.Add(ctx, pulseState)
+}
+
+// RemoveIP remove IP address.
+func (r *PulseStateRepository) RemoveIP(ctx context.Context, ip string) error {
+	key := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", ip)
+
+	err := r.client.Del(ctx, key).Err()
+	if err != nil {
+		if err == redis.Nil {
+			// Если данных нет (ошибка Nil)
+			return nil
+		}
+		// Если другая ошибка, то возвращаем ошибку
+		return err
+	}
+
+	return nil
+}
+
 // FindByIP retrieves the PulseState by the given IP address.
 func (r *PulseStateRepository) FindByIP(ctx context.Context, ip string) (*dpulse.PulseState, error) {
-	ipStateKey := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", ip)
+	key := fmt.Sprintf("%s:%s:%s", r.getBaseKey(), "all", ip)
 
-	pulseStateBytes, err := r.client.Get(ctx, ipStateKey).Bytes()
+	pulseStateBytes, err := r.client.Get(ctx, key).Bytes()
 	if err != nil {
 		if err == redis.Nil {
 			// Если данных нет (ошибка Nil)

@@ -33,19 +33,21 @@ type RedisConfig struct {
 }
 
 type WatcherConfig struct {
-	// Частота проверки и рассылки уведомлений (в секундах)
-	FreqSec int `env:"WATCHER_FREQ" envDefault:"60"`
-	// Допустимое время получения ответа от серверов (в секундах)
-	ResponseDeadlineSec int    `env:"WATCHER_RESPONSE_DEADLINE" envDefault:"180"`
-	LogFolderPath       string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"/app_n/log"`
-	LogFileName         string `env:"WATCHER_LOG_FILENAME" envDefault:"nPulse_watcher.log"`
-	Telegram            TelegramConfig
+	// Interval between checks and sending notifications (in seconds)
+	NotifyInterval uint16 `env:"NOTIFY_INTERVAL" envDefault:"60"`
+	// Maximum allowed response time from the host before it's considered unreachable (in seconds)
+	ResponseTimeout uint16 `env:"WATCHER_RESPONSE_TIMEOUT" envDefault:"180"`
+
+	LogFolderPath string `env:"WATCHER_LOG_FOLDERPATH" envDefault:"/app_n/log"`
+	LogFileName   string `env:"WATCHER_LOG_FILENAME" envDefault:"nPulse_watcher.log"`
+
+	Telegram TelegramConfig
 }
 
 type TelegramConfig struct {
 	Token     string `env:"WATCHER_TELEGRAM_TOKEN" envDefault:""`
 	TokenFile string `env:"WATCHER_TELEGRAM_TOKEN_FILE" envDefault:"/run/secrets/npulse_telegram_token"`
-	ChatId    string `env:"WATCHER_TELEGRAM_CHATID" envDefault:""`
+	ChannelId string `env:"WATCHER_TELEGRAM_CHANNEL_ID" envDefault:""`
 }
 
 // Создание объекта Config
