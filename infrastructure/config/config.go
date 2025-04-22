@@ -3,7 +3,6 @@ package iconfig
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
@@ -56,11 +55,7 @@ func New() *Config {
 
 	c.load()
 
-	tg := &c.Watcher.Telegram
-
-	if tg.Token == "" {
-		tg.Token = SecretFileRead(tg.TokenFile)
-	}
+	c.LoadTelegramToken()
 
 	return c
 }
@@ -73,18 +68,4 @@ func (config *Config) load() {
 	if err := env.Parse(config); err != nil {
 		log.Fatalf("Config load(). Read configuration error: %s\n", err)
 	}
-}
-
-// Загрузка данных из файла secret
-func SecretFileRead(name string) string {
-	data, err := os.ReadFile(name)
-	if err != nil {
-		log.Panic(
-			fmt.Sprintf("Can't read secret file %v", name),
-			err,
-		)
-		return ""
-	}
-
-	return string(data)
 }
