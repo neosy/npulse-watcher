@@ -29,10 +29,10 @@ server: ## Запуск fastHTTP сервера
 	@echo "***** SERVER RUN *****"
 	@set -o allexport; \
 	. ./.app.env; \
-	go run ./cmd/main.go
+	go run main.go
 
 build: ## Билд исполняемого файла
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $(APP_NAME) ./cmd/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $(APP_NAME) main.go
 
 img-build: ## Генерация образа docker контейнера
 	docker build -t $(APP_IMG_NAME) .
