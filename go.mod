@@ -3,7 +3,7 @@ module git.n-hub.ru/neosy/npulse-watcher
 go 1.24.0
 
 require (
-	git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424084645-d45d17b6d12b
+	git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424102617-61ec4e9f7620
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/fasthttp/router v1.5.4
 	github.com/joho/godotenv v1.5.1

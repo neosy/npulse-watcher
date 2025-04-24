@@ -1,7 +1,5 @@
-git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424075320-ddf72d6bd14d h1:Z6xA80hK1z7MFRHhUz8V9R0kHvMLNfKrFEqEzRiOPj4=
-git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424075320-ddf72d6bd14d/go.mod h1:iaZJ0V2DcqkSFpp4+gcxCszuXTKJgsG7KuhuMD9l/yE=
-git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424084645-d45d17b6d12b h1:uQ+cz6Tnnf1LbuKg1oIXVS1eIskjgWQwiPEnhAolItc=
-git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424084645-d45d17b6d12b/go.mod h1:mswWpa1jHYwT2jNuG2xI6db3YJ4QviwKYwi8wBcmhLc=
+git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424102617-61ec4e9f7620 h1:w25iCel/ltvofFIVRu8hqCJgraUlqXVniwAOA1WQHTo=
+git.n-hub.ru/neosy/npulse-shared v0.0.0-20250424102617-61ec4e9f7620/go.mod h1:mswWpa1jHYwT2jNuG2xI6db3YJ4QviwKYwi8wBcmhLc=
 github.com/andybalholm/brotli v1.1.1 h1:PR2pgnyFznKEugtsUo0xLdDop5SKXd5Qf5ysW+7XdTA=
 github.com/andybalholm/brotli v1.1.1/go.mod h1:05ib4cKhjx3OQYUY22hTVd34Bc8upXjOLL2rKwwZBoA=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
