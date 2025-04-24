@@ -14,28 +14,9 @@ func (u *Watcher) Register(ctx context.Context, req *appdto.RegisterRequest) (*d
 		return nil, err
 	}
 
-	pulseStateOld, err := u.pulseStateRep.FindByIP(ctx, req.IPAddress)
-	if err != nil {
-		return nil, err
-	}
+	pulseState, err := u.pulseState.Add(ctx, req.IPAddress, req.HostName)
 
-	pulseState := u.mapper.MapRegisterRequestToPulseStateDomain(req, pulseStateOld)
-
-	err = u.pulseStateRep.Add(ctx, pulseState)
-	if err != nil {
-		return nil, err
-	}
-
-	err = u.pulseStateRep.AddActiveIP(ctx, pulseState.IPAddress)
-	if err != nil {
-		return nil, err
-	}
-
-	if !pulseState.IsNotified {
-		u.pulseStateRep.AddNotifyIP(ctx, pulseState.IPAddress)
-	}
-
-	return pulseState, nil
+	return pulseState, err
 }
 
 func (u *Watcher) validateRegister(ctx context.Context, req *appdto.RegisterRequest) error {
@@ -46,14 +27,6 @@ func (u *Watcher) validateRegister(ctx context.Context, req *appdto.RegisterRequ
 		)
 
 		return errors.New("function parameter is a null pointer")
-	}
-
-	if req.IPAddress == "" {
-		return errors.New("ip address is required")
-	}
-
-	if req.HostName == "" {
-		return errors.New("host name is required")
 	}
 
 	return nil

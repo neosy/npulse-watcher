@@ -1,4 +1,4 @@
-package ascaner
+package ascanner
 
 import (
 	"log/slog"
@@ -8,7 +8,7 @@ import (
 	"git.n-hub.ru/neosy/npulse-watcher/port/persistence"
 )
 
-type ActivityScaner struct {
+type ActivityScanner struct {
 	logger *slog.Logger
 
 	// Config
@@ -21,7 +21,7 @@ type ActivityScaner struct {
 	pulseState *pulsestate.PulseState
 }
 
-func NewActivityScaner(
+func NewActivityScanner(
 	logger *slog.Logger,
 
 	// Config
@@ -30,8 +30,11 @@ func NewActivityScaner(
 	// Repositories
 	pulseStateRep persistence.PulseStateRepository,
 
-) *ActivityScaner {
-	return &ActivityScaner{
+	// Internal
+	pulseSate *pulsestate.PulseState,
+
+) *ActivityScanner {
+	return &ActivityScanner{
 		logger: logger,
 
 		// Config
@@ -41,6 +44,6 @@ func NewActivityScaner(
 		pulseStateRep: pulseStateRep,
 
 		// Internal
-		pulseState: pulsestate.NewPulseState(logger, pulseStateRep),
+		pulseState: pulseSate,
 	}
 }

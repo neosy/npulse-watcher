@@ -1,4 +1,4 @@
-package ascaner
+package ascanner
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 const limitResponseTimeout = 5 * time.Minute
 
 // Scan checks activity of IPs and removes or resets them if inactive.
-func (u *ActivityScaner) Scan(ctx context.Context, first bool) error {
+func (u *ActivityScanner) Scan(ctx context.Context, first bool) error {
 	// Получаем список активных IP-адресов
 	ips, err := u.pulseStateRep.GetAllActiveIPs(ctx)
 	if err != nil {
@@ -35,11 +35,7 @@ func (u *ActivityScaner) Scan(ctx context.Context, first bool) error {
 
 		// Если IP давно не активен — удаляем из активных и сбрасываем уведомление
 		if pulseState.LastTime.Before(time.Now().Add(-u.responseTimeout)) {
-			u.pulseStateRep.RemoveActiveIP(ctx, ip)
-			if pulseState.IsNotified {
-				// Сбрасываем признак уведомления
-				u.pulseState.MarkNotified(ctx, *pulseState, false)
-			}
+			u.pulseState.ToFailed(ctx, *pulseState)
 		}
 	}
 

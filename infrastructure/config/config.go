@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"log"
 
+	nlogger "git.n-hub.ru/neosy/npulse-shared/logger"
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
 
 // Основные настройки
 type Config struct {
-	Name       string `env:"APP_NAME" envDefault:"nPulseWatcher"`
+	AppName string `env:"APP_NAME" envDefault:"nPulseWatcher"`
+	// values: debug, info, warn, error
+	LogLevel nlogger.LogLevel `env:"LOG_LEVEL" envDefault:"warn"`
+
 	HTTPServer HTTPServerConfig
 	Watcher    WatcherConfig
 	Redis      RedisConfig
@@ -32,8 +36,8 @@ type RedisConfig struct {
 }
 
 type WatcherConfig struct {
-	// Interval between checks and sending notifications (in seconds)
-	NotifyInterval uint16 `env:"NOTIFY_INTERVAL" envDefault:"60"`
+	// Interval between checks and run scanner (in seconds)
+	ScanInterval uint16 `env:"WATCHER_SCAN_INTERVAL" envDefault:"60"`
 	// Maximum allowed response time from the host before it's considered unreachable (in seconds)
 	ResponseTimeout uint16 `env:"WATCHER_RESPONSE_TIMEOUT" envDefault:"180"`
 
@@ -46,7 +50,7 @@ type WatcherConfig struct {
 type TelegramConfig struct {
 	Token     string `env:"WATCHER_TELEGRAM_TOKEN" envDefault:""`
 	TokenFile string `env:"WATCHER_TELEGRAM_TOKEN_FILE" envDefault:"/run/secrets/npulse_telegram_token"`
-	ChannelId string `env:"WATCHER_TELEGRAM_CHANNEL_ID" envDefault:""`
+	ChatId    string `env:"WATCHER_TELEGRAM_CHAT_ID" envDefault:""`
 }
 
 // Создание объекта Config

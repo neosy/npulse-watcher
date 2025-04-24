@@ -5,8 +5,8 @@ import (
 )
 
 func (u *Watcher) Init(ctx context.Context) error {
-	err := u.activityScaner.Scan(ctx, true)
-	u.runIPNotifier(ctx)
+	err := u.activityScanner.Scan(ctx, true)
+	u.runScanner(ctx)
 
 	return err
 }

@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	nlogger "git.n-hub.ru/neosy/npulse-shared/logger"
 	redissh "git.n-hub.ru/neosy/npulse-shared/redis"
 	httpsrv "git.n-hub.ru/neosy/npulse-watcher/adapter/inbound/rest"
 	rrepositories "git.n-hub.ru/neosy/npulse-watcher/adapter/outbound/redis"
@@ -32,7 +33,7 @@ func main() {
 
 	// Создаем обработчик с уровнем Info, используя HandlerOptions
 	handlerOptions := &slog.HandlerOptions{
-		Level: slog.LevelInfo, // Устанавливаем уровень логирования
+		Level: nlogger.LevelToSlogLevel(cfg.LogLevel), // Устанавливаем уровень логирования
 	}
 	logger := slog.New(slog.NewTextHandler(os.Stdout, handlerOptions))
 
@@ -62,10 +63,10 @@ func main() {
 
 	// Usecases
 	watcherConfig := &watcher.Config{
-		NotifyInterval:    time.Duration(cfg.Watcher.NotifyInterval) * time.Second,
-		ResponseTimeout:   time.Duration(cfg.Watcher.ResponseTimeout) * time.Second,
-		TelegramToken:     cfg.Watcher.Telegram.Token,
-		TelegramChannelId: cfg.Watcher.Telegram.ChannelId,
+		ScanInterval:    time.Duration(cfg.Watcher.ScanInterval) * time.Second,
+		ResponseTimeout: time.Duration(cfg.Watcher.ResponseTimeout) * time.Second,
+		TelegramToken:   cfg.Watcher.Telegram.Token,
+		TelegramChatId:  cfg.Watcher.Telegram.ChatId,
 	}
 	ucDeps := &usecases.Dependencies{
 		Repositories: usecases.DepRepositories{

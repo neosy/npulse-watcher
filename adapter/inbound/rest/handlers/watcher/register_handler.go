@@ -3,8 +3,6 @@ package watcherh
 import (
 	"encoding/json"
 	"fmt"
-	"log"
-	"time"
 
 	nfasthttp "git.n-hub.ru/neosy/npulse-shared/fasthttp"
 	"git.n-hub.ru/neosy/npulse-watcher/adapter/inbound/rest/handlers/watcher/dto"
@@ -13,11 +11,12 @@ import (
 
 // @Router /watcher/reg [get]
 func (h *WatcherHandlers) RegisterHandler(ctx *fasthttp.RequestCtx) {
-	startTime := time.Now()
+	/*startTime := time.Now()
 	defer func() {
 		elapsedTime := time.Since(startTime).Seconds()
 		log.Printf("время выполнения REST метода RegisterHandler (сек): %v", elapsedTime)
-	}()
+	}()*/
+
 	var reqDto = &dto.RegisterRequest{}
 
 	err := json.Unmarshal(ctx.PostBody(), reqDto)

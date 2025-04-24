@@ -1,8 +1,12 @@
-FROM golang:1.23.1-alpine3.20 AS builder
+FROM golang:1.24.2-alpine AS builder
 RUN mkdir /build
 ADD . /build/
 WORKDIR /build
-RUN CGO_ENABLED=0 go build -o npulse-watcher ./cmd/main.go
+
+RUN apk add --no-cache git \
+&& rm -f go.work go.work.sum \
+&& CGO_ENABLED=0 go build -o npulse-watcher main.go
+    
 
 FROM alpine:latest
 
@@ -11,4 +15,5 @@ COPY --from=builder /build/npulse-watcher /app_n/bin/npulse-watcher
 
 EXPOSE 8080
 
+#ENTRYPOINT ["sleep", "infinity"]
 ENTRYPOINT ["/app_n/bin/npulse-watcher"]

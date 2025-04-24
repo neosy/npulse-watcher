@@ -65,7 +65,13 @@ func (u *IPNotifier) Notify(ctx context.Context) error {
 	}
 
 	// Отправляем сообщение в Telegram
-	u.telegram.Send(u.telegramChannelId, msg)
+	err = u.telegram.Send(u.config.TelegramChatId, msg)
+	if err != nil {
+		u.logger.Warn(
+			"Ошибка отправки сообщения в Telegram",
+			"error", err,
+		)
+	}
 
-	return nil
+	return err
 }
