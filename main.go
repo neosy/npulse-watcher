@@ -33,7 +33,8 @@ func main() {
 
 	// Создаем обработчик с уровнем Info, используя HandlerOptions
 	handlerOptions := &slog.HandlerOptions{
-		Level: nlogger.LevelToSlogLevel(cfg.LogLevel), // Устанавливаем уровень логирования
+		// Устанавливаем уровень логирования
+		Level: nlogger.LevelToSlogLevel(cfg.AppConfig.LogLevel),
 	}
 	logger := slog.New(slog.NewTextHandler(os.Stdout, handlerOptions))
 

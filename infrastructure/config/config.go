@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	nlogger "git.n-hub.ru/neosy/npulse-shared/logger"
+	nconfig "git.n-hub.ru/neosy/npulse-shared/config"
+	iconstants "git.n-hub.ru/neosy/npulse-watcher/constants"
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
@@ -12,8 +13,8 @@ import (
 // Основные настройки
 type Config struct {
 	AppName string `env:"APP_NAME" envDefault:"nPulseWatcher"`
-	// values: debug, info, warn, error
-	LogLevel nlogger.LogLevel `env:"LOG_LEVEL" envDefault:"warn"`
+	// Application configuration
+	AppConfig nconfig.AppConfig
 
 	HTTPServer HTTPServerConfig
 	Watcher    WatcherConfig
@@ -58,8 +59,9 @@ func New() *Config {
 	c := &Config{}
 
 	c.load()
-
 	c.LoadTelegramToken()
+
+	c.AppConfig.Version = iconstants.AppVersion
 
 	return c
 }
